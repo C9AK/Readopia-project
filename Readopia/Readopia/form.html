@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Library Form</title>
+  <script src="form.js"></script>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Date and Time: <span id="datetime"></span></h1>
+  
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="about.html">About Us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="services.html">Articles</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="contact.html">Contact Us</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="reviews.html">Reviews</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="resources.html">Resources</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="form.html">form</a>
+        </li>
+        
+  <h2>Library Form</h2>
+  
+  <form id="libraryForm" onsubmit="return validateForm()">
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name">
+      <span id="nameError" class="error"></span>
+    </div>
+    <div>
+      <label for="contact">Contact Information:</label>
+      <input type="text" id="contact" name="contact">
+      <span id="contactError" class="error"></span>
+    </div>
+    <div>
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age">
+      <span id="ageError" class="error"></span>
+    </div>
+    <div>
+      <label for="quantity">Item Quantity:</label>
+      <input type="number" id="quantity" name="quantity">
+      <span id="quantityError" class="error"></span>
+    </div>
+    <div>
+      <label for="income">Income:</label>
+      <input type="number" id="income" name="income">
+      <span id="incomeError" class="error"></span>
+    </div>
+    <div>
+      <label>Options:</label><br>
+      <input type="radio" id="option1" name="options" value="option1">
+      <label for="option1">WW1 Book</label><br>
+      <input type="radio" id="option2" name="options" value="option2">
+      <label for="option2">Titanic Book</label><br>
+      <input type="radio" id="option3" name="options" value="option3">
+      <label for="option3">King Abdullah II</label>
+      <span id="optionsError" class="error"></span>
+    </div>
+    <div>
+      <label>Interests:</label><br>
+      <input type="checkbox" id="interest1" name="interests" value="interest1">
+      <label for="interest1">Reading</label><br>
+      <input type="checkbox" id="interest2" name="interests" value="interest2">
+      <label for="interest2">Writing</label><br>
+      <input type="checkbox" id="interest3" name="interests" value="interest3">
+      <label for="interest3">Listening</label>
+      <span id="interestsError" class="error"></span>
+    </div>
+    <div>
+      <label for="comments">Comments:</label><br>
+      <textarea id="comments" name="comments" rows="4" cols="50"></textarea>
+    </div>
+    <div>
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+  
+  <script>
+    function validateForm() {
+      var name = document.getElementById("name").value;
+      var contact = document.getElementById("contact").value;
+      var age = document.getElementById("age").value;
+      var quantity = document.getElementById("quantity").value;
+      var income = document.getElementById("income").value;
+      var options = document.querySelector('input[name="options"]:checked');
+      var interests = document.querySelectorAll('input[name="interests"]:checked');
+      var comments = document.getElementById("comments").value;
+      
+      // Clear previous error messages
+      clearErrors();
+      
+      // Validate each field
+      var isValid = true;
+      
+      if (name === "") {
+        displayError("nameError", "Please enter your name.");
+        isValid = false;
+      }
+      
+      if (contact === "") {
+        displayError("contactError", "Please enter your contact informationsuch as email or phone number.");
+        isValid = false;
+      }
+      
+      if (age < 18 || age > 100) {
+        displayError("ageError", "Please enter a valid age between 18 and 100.");
+        isValid = false;
+      }
+      
+      if (quantity <= 0) {
+        displayError("quantityError", "Please enter a valid quantity.");
+        isValid = false;
+      }
+      
+      if (income <= 0) {
+        displayError("incomeError", "Please enter a valid income.");
+        isValid = false;
+      }
+      
+      if (!options) {
+        displayError("optionsError", "Please select an option.");
+        isValid = false;
+      }
+      
+      if (interests.length === 0) {
+        displayError("interestsError", "Please select at least one interest.");
+        isValid = false;
+      }
+      
+      if (isValid) {
+        // Perform calculations based on the project's concept
+        
+        // Generate the report
+        var report = "Name: " + name + "\n";
+        report += "Contact Information: " + contact + "\n";
+        report += "Age: " + age + "\n";
+        report += "Item Quantity: " + quantity + "\n";
+        report += "Income: " + income + "\n";
+        report += "Options: " + options.value + "\n";
+        report += "Interests: ";
+        for (var i = 0; i < interests.length; i++) {
+          report += interests[i].value + " ";
+        }
+        report += "\nComments: " + comments;
+        
+        // Display the report
+        alert("Form submitted!\n\n" + report);
+        
+        // Clear the form
+        document.getElementById("libraryForm").reset();
+      }
+      
+      return false; // Prevent form submission
+    }
+    
+    function displayError(id, message) {
+      var errorElement = document.getElementById(id);
+      errorElement.innerText = message;
+    }
+    
+    function clearErrors() {
+      var errorElements = document.getElementsByClassName("error");
+      for (var i = 0; i < errorElements.length; i++) {
+        errorElements[i].innerText = "";
+      }
+    }
+    
+    function updateDateTime() {
+      var datetimeElement = document.getElementById("datetime");
+      var now = new Date();
+      var datetimeString = now.toLocaleString();
+      datetimeElement.innerText = datetimeString;
+    }
+    
+    // Update date and time every second
+    setInterval(updateDateTime, 1000);
+  </script>
+</body>
+</html>
